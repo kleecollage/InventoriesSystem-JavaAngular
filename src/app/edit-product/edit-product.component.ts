@@ -25,10 +25,10 @@ export class EditProductComponent implements OnInit {
   };
 
   onSubmit() {
-    this.saveProduct();
+    this.updateProduct();
   }
 
-  saveProduct() {
+  updateProduct() {
     this.productService.updateProduct(this.id, this.product).subscribe({
       next: (data) => this.goListProducts(),
       error: (errors: any) => console.log(errors)

@@ -48,6 +48,16 @@ public class ProductController {
             throw new ResourceNotFoundException("Product with id " + id + " not found");
     }
 
+    @PutMapping("/products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product productRequest) {
+        Product product = this.productService.searchProductById(id);
+        product.setDescriptionProduct(productRequest.getDescriptionProduct());
+        product.setPriceProduct(productRequest.getPriceProduct());
+        product.setStock(productRequest.getStock());
+        this.productService.saveProduct(product);
+        return ResponseEntity.ok(product);
+    }
+
 
 }
 

@@ -41,6 +41,7 @@ public class ProductController {
         return this.productService.saveProduct(product);
     }
 
+    // POST [host/inventory-app/products/?id]
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable int id) {
         Product product = this.productService.searchProductById(id);
@@ -50,6 +51,7 @@ public class ProductController {
             throw new ResourceNotFoundException("Product with id " + id + " not found");
     }
 
+    // PUT [host/inventory-app/products/?id]
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product productRequest) {
         Product product = this.productService.searchProductById(id);
@@ -62,6 +64,7 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
+    // DELETE [host/inventory-app/products/?id]
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable int id) {
         Product product = this.productService.searchProductById(id);

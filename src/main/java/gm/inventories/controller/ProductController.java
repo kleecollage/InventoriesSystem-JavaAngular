@@ -4,10 +4,7 @@ import gm.inventories.model.Product;
 import gm.inventories.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,9 +26,15 @@ public class ProductController {
     public List<Product> getProducts() {
         List<Product> products = productService.listProducts();
         logger.info("Products list: ");
-        // DEBUG
-        // products.forEach(product -> logger.info(product.toString()));
+        // DEBUG // products.forEach(product -> logger.info(product.toString()));
         return products;
+    }
+
+    // POST [host/inventory-app/products]
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody Product product) {
+        logger.info("Product to add: " + product);
+        return this.productService.saveProduct(product);
     }
 
 

@@ -14,7 +14,7 @@ export class ProductListComponent  implements OnInit{
 
   products: Product[];
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private productService: ProductService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -29,5 +29,12 @@ export class ProductListComponent  implements OnInit{
 
   editProduct(id: number) {
     this.router.navigate(["/edit-product", id]);
+  }
+
+  deleteProduct(id: number) {
+    this.productService.deleteProduct(id).subscribe({
+      next: (data) => this.getProducts(),
+      error: (errors) => console.log(errors)
+    });
   }
 }

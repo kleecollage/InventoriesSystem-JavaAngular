@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 // http://localhost:8080/inventory-app
@@ -51,11 +53,24 @@ public class ProductController {
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product productRequest) {
         Product product = this.productService.searchProductById(id);
+        if (product == null)
+            throw new ResourceNotFoundException("Product with id " + id + " not found");
         product.setDescriptionProduct(productRequest.getDescriptionProduct());
         product.setPriceProduct(productRequest.getPriceProduct());
         product.setStock(productRequest.getStock());
         this.productService.saveProduct(product);
         return ResponseEntity.ok(product);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable int id) {
+        Product product = this.productService.searchProductById(id);
+        if (product == null)
+            throw new ResourceNotFoundException("Product with id " + id + " not found");
+        this.productService.deleteProductById(product.getIdProduct());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 
 
